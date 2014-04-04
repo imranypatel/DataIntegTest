@@ -18,6 +18,11 @@ namespace specp.DataIntegration
         private static string _TraxDIFTPTestMode;
         private static string _TraxDIRemoteFTPStagePath;
         private static string _TraxDILocalArchivePath;
+
+        static string _TraxDIFTPServer;
+        static string _TraxDIFTPUser;
+        static string _TraxDIFTPPwd;
+
         static void TestNLog()
         {
             var basedirPath = AppDomain.CurrentDomain.BaseDirectory;
@@ -42,6 +47,10 @@ namespace specp.DataIntegration
             _TraxDIFTPTestMode = ConfigurationManager.AppSettings["TraxDIFTPTestMode"].ToString();
             _TraxDIRemoteFTPStagePath = ConfigurationManager.AppSettings["TraxDIRemoteFTPStagePath"].ToString();
             _TraxDILocalArchivePath = ConfigurationManager.AppSettings["TraxDILocalArchivePath"].ToString();
+
+            _TraxDIFTPServer = ConfigurationManager.AppSettings["TraxDIFTPServer"].ToString();
+            _TraxDIFTPUser = ConfigurationManager.AppSettings["TraxDIFTPUser"].ToString();
+            _TraxDIFTPPwd = ConfigurationManager.AppSettings["TraxDIFTPPwd"].ToString();
 
             logger.Trace("TraxDIStagePath={0} _TraxDILocalFTPPath={1} ", _TraxDIStagePath, _TraxDILocalFTPPath);
         }
@@ -138,7 +147,7 @@ namespace specp.DataIntegration
             var files = Directory.GetFiles(_TraxDIStagePath);
 
             // Create remote stage folder
-            FTP.CreateFolder(_TraxDIRemoteFTPStagePath);
+            FTP.CreateFolder(_TraxDIFTPServer, _TraxDIFTPUser, _TraxDIFTPPwd,_TraxDIRemoteFTPStagePath);
 
             logger.Trace("FTP files...{0}", _TraxDIFTPTestMode);
             foreach (var f in files)
@@ -161,8 +170,8 @@ namespace specp.DataIntegration
         {
             try
             {
-
-                File.Move(f, Path.Combine(_TraxDILocalFTPPath, Path.GetFileName(f)));
+                var tmpFtpFileName = GetTmpFtpFileName(f);
+                File.Copy(f, Path.Combine(_TraxDILocalFTPPath, tmpFtpFileName));
             }
             catch (Exception e)
             {
@@ -174,7 +183,15 @@ namespace specp.DataIntegration
 
         static bool FTPRemote(string f)
         {
-            return FTP.Upload(f, _TraxDIRemoteFTPStagePath);
+
+            var tmpFtpFileName = GetTmpFtpFileName(f);
+            return FTP.Upload(_TraxDIFTPServer, _TraxDIFTPUser, _TraxDIFTPPwd, _TraxDIRemoteFTPStagePath, tmpFtpFileName, f);
+
+        }
+
+        static string GetTmpFtpFileName(string f)
+        {
+            return Path.GetFileNameWithoutExtension(f) + ".tmp";
 
         }
 
