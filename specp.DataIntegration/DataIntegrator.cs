@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text;
 using NLog;
 using System.Configuration;
 using System.IO;
-
+using specp.Domain.Repository;
+using specp.Domain.Entities;
 namespace specp.DataIntegration
 {
     public class DataIntegrator
@@ -22,6 +22,10 @@ namespace specp.DataIntegration
         static string _TraxDIFTPServer;
         static string _TraxDIFTPUser;
         static string _TraxDIFTPPwd;
+
+        // data context
+        static SVCDataContext ctxSVC;
+        static string outError = "";
 
         static void TestNLog()
         {
@@ -53,15 +57,27 @@ namespace specp.DataIntegration
             _TraxDIFTPPwd = ConfigurationManager.AppSettings["TraxDIFTPPwd"].ToString();
 
             logger.Trace("TraxDIStagePath={0} _TraxDILocalFTPPath={1} ", _TraxDIStagePath, _TraxDILocalFTPPath);
+
+
+            logger.Trace("Getting data context... ");
+            ctxSVC = new SVCDataContext(Globals.ConnectionString);
+
         }
 
         public static void ServiceController()
         {
+            //FTPTests();
+            //return;
 
+            logger.Trace("Creating folders if not exist");
+            CreateFolders();
 
-            logger.Trace("1.	On <scheduled time to> exchange data with Tencia");
+            //logger.Trace("1.	On <scheduled time to> exchange data with Tencia");
 
             logger.Trace("1.1	Create Data Exchange Run Identifier <DXCHGRID>");
+
+
+
 
             logger.Trace("1.2	Create log file for Data Exchange Session/Run with < DXCHGRID>");
 
@@ -77,6 +93,20 @@ namespace specp.DataIntegration
             logger.Trace("1.6	Notify Problems");
             NotifyProblem();
 
+        }
+
+        public static int GetNextAppServiceRunId()
+        {
+          
+           var res = ctxSVC.SvcIns_AppServiceRun(3, DateTime.Now, specp.Domain.Entities.Com.Status.CLOSED, specp.Domain.Entities.Com.SysUsers.SERVICE, ref outError);
+           return res.FirstOrDefault().AppServiceRunID;
+           
+        }
+        static void CreateFolders()
+        {
+            if (!Directory.Exists(_TraxDIStagePath)) Directory.CreateDirectory(_TraxDIStagePath);
+            if (!Directory.Exists(_TraxDILocalFTPPath)) Directory.CreateDirectory(_TraxDILocalFTPPath);
+            if (!Directory.Exists(_TraxDILocalArchivePath)) Directory.CreateDirectory(_TraxDILocalArchivePath);
         }
 
         static void ProcessDestination()
@@ -139,10 +169,10 @@ namespace specp.DataIntegration
             //1.3.2	Move file to <designated folder at source/trax for Success Archive>
             //1.4	Set UPLOAD_DXCHGRID as current <DXCHGRID>
             //1.5	Log entry to Log of current <DXCHGRID>
-            FTPTest();
+            FTPDataTest();
         }
 
-        static void FTPTest()
+        static void FTPDataTest()
         {
             var files = Directory.GetFiles(_TraxDIStagePath);
 
@@ -155,7 +185,7 @@ namespace specp.DataIntegration
                 logger.Trace(f);
 
                 // ftp success
-                if (_TraxDIFTPTestMode.ToUpper() == "LOCAL" ? FTPLocal(f) : FTPRemote(f))
+                if (_TraxDIFTPTestMode.ToUpper() == "LOCAL" ? FTPDataTestLocal(f) : FTPDataTestRemote(f))
                 {
                     // move to archive
                     File.Move(f, Path.Combine(_TraxDILocalArchivePath, Path.GetFileName(f)));
@@ -166,7 +196,7 @@ namespace specp.DataIntegration
             logger.Trace("FTP files...{0} Done", _TraxDIFTPTestMode);
         }
 
-        static bool FTPLocal(string f)
+        static bool FTPDataTestLocal(string f)
         {
             try
             {
@@ -181,7 +211,7 @@ namespace specp.DataIntegration
             return true;
         }
 
-        static bool FTPRemote(string f)
+        static bool FTPDataTestRemote(string f)
         {
 
             var tmpFtpFileName = GetTmpFtpFileName(f);
@@ -203,6 +233,17 @@ namespace specp.DataIntegration
             //1.2	Log entry to Log of current <DXCHGRID>
             //2.	Send Notification 
 
+        }
+
+        static void FTPTests()
+        {
+            var d = FTP.Dir(_TraxDIFTPServer, _TraxDIFTPUser, _TraxDIFTPPwd, _TraxDIRemoteFTPStagePath);
+            var df = FTP.Dir(_TraxDIFTPServer, _TraxDIFTPUser, _TraxDIFTPPwd, _TraxDIRemoteFTPStagePath,"Contact_ContactID_20140331115438483.txt");
+            var dferr = FTP.Dir(_TraxDIFTPServer, _TraxDIFTPUser, _TraxDIFTPPwd, _TraxDIRemoteFTPStagePath, "xContact_ContactID_20140331115438483.txt");
+
+            logger.Trace(d);
+            logger.Trace(df);
+            logger.Trace(dferr);
         }
     }
 }

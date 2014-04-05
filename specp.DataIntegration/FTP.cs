@@ -99,6 +99,75 @@ namespace specp.DataIntegration
 
         //}
 
+        public static string[] Dir(string ftpServer, string ftpUser, string ftpPassword, string ftpFolderName)
+        {
+            FtpWebRequest request;
+            try
+            {
+
+                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName,null);
+                request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
+
+               
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream);
+
+                var resp = reader.ReadToEnd();
+                Console.WriteLine(resp);
+
+                Console.WriteLine("Directory List Complete, status {0}", response.StatusDescription);
+                logger.Trace("Directory List Complete, status {0}", response.StatusDescription);
+
+                reader.Close();
+                response.Close();
+
+                // list of file names
+                return GetFileNames(resp);
+            }
+            catch (Exception e)
+            {
+                logger.Trace("Error occured {0}", e.Message);
+                return null;
+            }
+
+        }
+
+        public static string[] Dir(string ftpServer, string ftpUser, string ftpPassword, string ftpFolderName, string srcFileName)
+        {
+            FtpWebRequest request;
+            try
+            {
+
+                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, srcFileName);
+                request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
+
+
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+                Stream responseStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(responseStream);
+
+                var resp = reader.ReadToEnd();
+                Console.WriteLine(resp);
+
+                Console.WriteLine("Directory List Complete, status {0}", response.StatusDescription);
+                logger.Trace("Directory List Complete, status {0}", response.StatusDescription);
+
+                reader.Close();
+                response.Close();
+
+                // list of file names
+                return GetFileNames(resp);
+            }
+            catch (Exception e)
+            {
+                logger.Trace("Error occured {0}", e.Message);
+                return null;
+            }
+
+        }
 
         //public static bool CreateFolder0(string ftpServer, string ftpUser, string ftpPassword, string ftpFolderName)
         //{
@@ -256,6 +325,13 @@ namespace specp.DataIntegration
             }
             return true;
         }
+
+        private static string[] GetFileNames(string ftpResp)
+        {
+            var lst = ftpResp.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            return lst;
+        }
+
     }
 }
 

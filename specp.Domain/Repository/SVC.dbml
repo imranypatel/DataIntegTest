@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Darwin-Dev" Class="SVCDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tserver;Initial Catalog=Darwin-Dev;User ID=sa" SettingsObjectName="specp.Domain.Properties.Settings" SettingsPropertyName="Darwin_DevConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.SvcIns_AppServiceRun" Method="SvcIns_AppServiceRun">
+    <Parameter Name="p_AppServiceID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_StartedAt" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="p_StatusID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_CreatedByID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <ElementType Name="SvcIns_AppServiceRunResult">
+      <Column Name="AppServiceRunID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AppServiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StartedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FinishedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>
