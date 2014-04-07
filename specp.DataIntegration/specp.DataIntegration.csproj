@@ -49,8 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataIntegrator.cs" />
-    <Compile Include="FTP.cs" />
+    <Compile Include="ETLSimulator.cs" />
+    <Compile Include="ETLUtil.cs" />
+    <Compile Include="FTP.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FTPSimulator.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="IETL.cs" />
+    <Compile Include="IUploader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

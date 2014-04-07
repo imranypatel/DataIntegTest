@@ -69,6 +69,14 @@ namespace specp.Domain.Repository
 			tState = ((string)(result.GetParameterValue(4)));
 			return ((ISingleResult<SvcIns_AppServiceRunResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SvcUpd_AppServiceRun")]
+		public int SvcUpd_AppServiceRun([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceRunID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> p_FinishedAt, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StatusID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_LastModifiedByID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(500)")] ref string tState)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_AppServiceRunID, p_FinishedAt, p_StatusID, p_LastModifiedByID, tState);
+			tState = ((string)(result.GetParameterValue(4)));
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	public partial class SvcIns_AppServiceRunResult

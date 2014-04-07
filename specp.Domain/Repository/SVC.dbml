@@ -18,4 +18,12 @@
       <Column Name="LastModifiedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.SvcUpd_AppServiceRun" Method="SvcUpd_AppServiceRun">
+    <Parameter Name="p_AppServiceRunID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_FinishedAt" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="p_StatusID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_LastModifiedByID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

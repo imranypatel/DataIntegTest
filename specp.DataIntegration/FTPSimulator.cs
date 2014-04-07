@@ -9,20 +9,14 @@ using NLog;
 
 namespace specp.DataIntegration
 {
-    public class FTP : specp.DataIntegration.IUploader
+    public class FTPSimulator : specp.DataIntegration.IUploader
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        //static string _TraxDIFTPServer;
-        //static string _TraxDIFTPUser;
-        //static string _TraxDIFTPPwd;
 
-        FTP()
+        public FTPSimulator()
         {
-            //_TraxDIFTPServer = ConfigurationManager.AppSettings["TraxDIFTPServer"].ToString();
-            //_TraxDIFTPUser = ConfigurationManager.AppSettings["TraxDIFTPUser"].ToString();
-            //_TraxDIFTPPwd = ConfigurationManager.AppSettings["TraxDIFTPPwd"].ToString();
-
+          
         }
 
        
@@ -293,34 +287,14 @@ namespace specp.DataIntegration
         public  bool Upload(string ftpServer, string ftpUser, string ftpPassword, string ftpFolderName, string ftpFileName, string srcFileName)
         {
 
-            FtpWebRequest request;
             try
             {
-                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, ftpFileName);
-                //request = WebRequest.Create(new Uri(string.Format(@"{0}/{1}", _TraxDIFTPServer, absoluteFileName))) as FtpWebRequest;
-                
-                // Upload
-                request.Method = WebRequestMethods.Ftp.UploadFile;
-                using (FileStream fs = File.OpenRead(srcFileName))
-                {
-                    byte[] buffer = new byte[fs.Length];
-                    fs.Read(buffer, 0, buffer.Length);
-                    fs.Close();
-                    Stream requestStream = request.GetRequestStream();
-                    requestStream.Write(buffer, 0, buffer.Length);
-                    requestStream.Close();
-                    requestStream.Flush();
-                }
-
-                // rename
-
-
-                logger.Trace("FTP upload done for {0} ", srcFileName);
-
+                var tmpFtpFileName = ETLUtil.GetTempFileName(srcFileName);
+                File.Copy(srcFileName, Path.Combine(ETLUtil._TraxDILocalFTPPath, tmpFtpFileName));
             }
             catch (Exception e)
             {
-                logger.Trace("Error occured {0} while uploading {1} ", e.Message, srcFileName);
+                logger.Trace("Error Occured {0} ", e.Message);
                 return false;
             }
             return true;

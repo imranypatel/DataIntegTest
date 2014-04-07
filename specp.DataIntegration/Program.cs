@@ -14,10 +14,11 @@ namespace specp.DataIntegration
 
         static void Main(string[] args)
         {
-
+            logger.Info("-------------------");
             logger.Info("Starting service...");
             DataIntegrator.ServiceController();
             logger.Info("Finished service.");
+            logger.Info("-------------------");
             //Console.ReadKey();
         }
     }
