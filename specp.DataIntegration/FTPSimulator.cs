@@ -130,34 +130,14 @@ namespace specp.DataIntegration
 
         public  string[] Dir(string ftpServer, string ftpUser, string ftpPassword, string ftpFolderName, string srcFileName)
         {
-            FtpWebRequest request;
+            
             try
             {
-
-                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, srcFileName);
-                request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
-
-
-                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-
-                Stream responseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(responseStream);
-
-                var resp = reader.ReadToEnd();
-                Console.WriteLine(resp);
-
-                Console.WriteLine("Directory List Complete, status {0}", response.StatusDescription);
-                logger.Trace("Directory List Complete, status {0}", response.StatusDescription);
-
-                reader.Close();
-                response.Close();
-
-                // list of file names
-                return GetFileNames(resp);
+                return Directory.GetFiles(ftpFolderName,srcFileName);                       
             }
             catch (Exception e)
             {
-                logger.Trace("Error occured {0}", e.Message);
+                logger.Error("Error occured {0}", e.Message);
                 return null;
             }
 
@@ -290,7 +270,9 @@ namespace specp.DataIntegration
             try
             {
                 var tmpFtpFileName = ETLUtil.GetTempFileName(srcFileName);
-                File.Copy(srcFileName, Path.Combine(ETLUtil._TraxDILocalFTPPath, tmpFtpFileName));
+                File.Copy(srcFileName, Path.Combine(ETLUtil._TraxDILocalUploadPath, tmpFtpFileName));
+                File.Move(Path.Combine(ETLUtil._TraxDILocalUploadPath, tmpFtpFileName), Path.Combine(ETLUtil._TraxDILocalUploadPath, Path.GetFileName(srcFileName)));
+                
             }
             catch (Exception e)
             {

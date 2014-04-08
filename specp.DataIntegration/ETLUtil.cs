@@ -16,12 +16,17 @@ namespace specp.DataIntegration
 
         //local
         public static string _TraxDILocalStagePath;
-        public static string _TraxDILocalFTPPath;
+        public static string _TraxDILocalUploadPath;
+        public static string _TraxDILocalSuccessPath;
+        public static string _TraxDILocalRejectedPath;
         public static string _TraxDILocalArchivePath;
 
 
         //ftp
-        public static string _TraxDIFTPStagePath;
+        public static string _TraxDIFTPUploadPath;
+        public static string _TraxDIFTPSuccessPath;
+        public static string _TraxDIFTPRejectedPath;
+
         public static string _TraxDIFTPServer;
         public static string _TraxDIFTPUser;
         public static string _TraxDIFTPPwd;
@@ -32,15 +37,19 @@ namespace specp.DataIntegration
             _TraxDIFTPTestMode = ConfigurationManager.AppSettings["TraxDIFTPTestMode"].ToString();
 
             _TraxDILocalStagePath = ConfigurationManager.AppSettings["TraxDILocalStagePath"].ToString();
-            _TraxDILocalFTPPath = ConfigurationManager.AppSettings["TraxDILocalFTPPath"].ToString();                   
+            _TraxDILocalUploadPath = ConfigurationManager.AppSettings["TraxDILocalUploadPath"].ToString();
+            _TraxDILocalSuccessPath = ConfigurationManager.AppSettings["TraxDILocalSuccessPath"].ToString();
+            _TraxDILocalRejectedPath = ConfigurationManager.AppSettings["TraxDILocalRejectedPath"].ToString();  
             _TraxDILocalArchivePath = ConfigurationManager.AppSettings["TraxDILocalArchivePath"].ToString();
 
-            _TraxDIFTPStagePath = ConfigurationManager.AppSettings["TraxDIFTPStagePath"].ToString();
+            _TraxDIFTPUploadPath = ConfigurationManager.AppSettings["TraxDIFTPUploadPath"].ToString();
+            _TraxDIFTPSuccessPath = ConfigurationManager.AppSettings["TraxDIFTPSuccessPath"].ToString();
+            _TraxDIFTPRejectedPath = ConfigurationManager.AppSettings["TraxDIFTPRejectedPath"].ToString();
             _TraxDIFTPServer = ConfigurationManager.AppSettings["TraxDIFTPServer"].ToString();
             _TraxDIFTPUser = ConfigurationManager.AppSettings["TraxDIFTPUser"].ToString();
             _TraxDIFTPPwd = ConfigurationManager.AppSettings["TraxDIFTPPwd"].ToString();
 
-            logger.Trace("TraxDIStagePath={0} _TraxDILocalFTPPath={1} ", ETLUtil._TraxDILocalStagePath, ETLUtil._TraxDILocalFTPPath);
+            logger.Trace("_TraxDILocalUploadPath={0} _TraxDIFTPUploadPath={1} ", ETLUtil._TraxDILocalUploadPath, ETLUtil._TraxDIFTPUploadPath);
             logger.Trace("Initializing...Done.");
         }
 

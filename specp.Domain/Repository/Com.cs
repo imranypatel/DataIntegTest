@@ -22,7 +22,7 @@ namespace specp.Domain.Repository
             {
                 //msg = new tDALMessage { Action = "ERR", Reason = "DB Message not formated properly.", Description = "DB API Returned message in incorrect format" }; 
                 //throw new Exception("TERR: DB Message not formated properly");
-                msg = new AppMessage { Status = "ERR", MessageId = "-1-DAL Message is in incorrect format", Message1 = "", Message2 = "", Message3 = "" };
+                msg = new AppMessage { Status = "ERR", MessageId = "-1-DAL Message is in incorrect format", Message1 = "", Message2 = "", Message3 = "", SourceMessage=e.Message };
             }
             return msg;
         }

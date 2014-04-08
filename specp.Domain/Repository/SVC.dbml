@@ -26,4 +26,55 @@
     <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.SvcIns_AppServiceRunQueue" Method="SvcIns_AppServiceRunQueue">
+    <Parameter Name="p_AppServiceRunID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_AppServiceQueueID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_StateID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_Retry" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_StatusID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_CreatedByID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <ElementType Name="SvcIns_AppServiceRunQueueResult">
+      <Column Name="AppServiceRunQueueID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AppServiceRunID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AppServiceQueueID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Retry" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SvcUpd_AppServiceQueue" Method="SvcUpd_AppServiceQueue">
+    <Parameter Name="p_AppServiceQueueID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_FileName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="p_RetryAttempts" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_StateID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_StatusID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_LastModifiedByID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SvcGet_AppServiceQueue" Method="SvcGet_AppServiceQueue">
+    <Parameter Name="p_StateID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_AppServiceQueueID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_FileName" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <ElementType Name="SvcGet_AppServiceQueueResult">
+      <Column Name="AppServiceQueueID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AppServiceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MapObjectID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MapObjectTargetID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RetryAttempts" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StatusID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FileName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreatedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedByID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastModifiedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

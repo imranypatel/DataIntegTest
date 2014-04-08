@@ -16,7 +16,7 @@ namespace specp.DataIntegration
         {
             logger.Info("-------------------");
             logger.Info("Starting service...");
-            DataIntegrator.ServiceController();
+            new DataIntegrator().Run();
             logger.Info("Finished service.");
             logger.Info("-------------------");
             //Console.ReadKey();

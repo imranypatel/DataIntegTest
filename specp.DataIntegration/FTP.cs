@@ -17,7 +17,7 @@ namespace specp.DataIntegration
         //static string _TraxDIFTPUser;
         //static string _TraxDIFTPPwd;
 
-        FTP()
+        public FTP()
         {
             //_TraxDIFTPServer = ConfigurationManager.AppSettings["TraxDIFTPServer"].ToString();
             //_TraxDIFTPUser = ConfigurationManager.AppSettings["TraxDIFTPUser"].ToString();
@@ -296,7 +296,8 @@ namespace specp.DataIntegration
             FtpWebRequest request;
             try
             {
-                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, ftpFileName);
+                var tmpFtpFileName = ETLUtil.GetTempFileName(srcFileName);
+                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, tmpFtpFileName);
                 //request = WebRequest.Create(new Uri(string.Format(@"{0}/{1}", _TraxDIFTPServer, absoluteFileName))) as FtpWebRequest;
                 
                 // Upload
@@ -313,7 +314,10 @@ namespace specp.DataIntegration
                 }
 
                 // rename
-
+                request = CreateRequest(ftpServer, ftpUser, ftpPassword, ftpFolderName, tmpFtpFileName);
+                request.Method = WebRequestMethods.Ftp.Rename;
+                request.RenameTo = ftpFileName;
+                request.GetResponse();
 
                 logger.Trace("FTP upload done for {0} ", srcFileName);
 

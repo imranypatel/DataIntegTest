@@ -77,6 +77,30 @@ namespace specp.Domain.Repository
 			tState = ((string)(result.GetParameterValue(4)));
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SvcIns_AppServiceRunQueue")]
+		public ISingleResult<SvcIns_AppServiceRunQueueResult> SvcIns_AppServiceRunQueue([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceRunID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceQueueID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StateID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_Retry, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StatusID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_CreatedByID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(500)")] ref string tState)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_AppServiceRunID, p_AppServiceQueueID, p_StateID, p_Retry, p_StatusID, p_CreatedByID, tState);
+			tState = ((string)(result.GetParameterValue(6)));
+			return ((ISingleResult<SvcIns_AppServiceRunQueueResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SvcUpd_AppServiceQueue")]
+		public int SvcUpd_AppServiceQueue([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceQueueID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string p_FileName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_RetryAttempts, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StateID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StatusID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_LastModifiedByID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(500)")] ref string tState)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_AppServiceQueueID, p_FileName, p_RetryAttempts, p_StateID, p_StatusID, p_LastModifiedByID, tState);
+			tState = ((string)(result.GetParameterValue(6)));
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SvcGet_AppServiceQueue")]
+		public ISingleResult<SvcGet_AppServiceQueueResult> SvcGet_AppServiceQueue([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_StateID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceQueueID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string p_FileName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(500)")] ref string tState)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_StateID, p_AppServiceQueueID, p_FileName, tState);
+			tState = ((string)(result.GetParameterValue(3)));
+			return ((ISingleResult<SvcGet_AppServiceQueueResult>)(result.ReturnValue));
+		}
 	}
 	
 	public partial class SvcIns_AppServiceRunResult
@@ -180,6 +204,418 @@ namespace specp.Domain.Repository
 				if ((this._StatusID != value))
 				{
 					this._StatusID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByID", DbType="Int NOT NULL")]
+		public int CreatedByID
+		{
+			get
+			{
+				return this._CreatedByID;
+			}
+			set
+			{
+				if ((this._CreatedByID != value))
+				{
+					this._CreatedByID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedAt
+		{
+			get
+			{
+				return this._CreatedAt;
+			}
+			set
+			{
+				if ((this._CreatedAt != value))
+				{
+					this._CreatedAt = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifiedByID", DbType="Int NOT NULL")]
+		public int LastModifiedByID
+		{
+			get
+			{
+				return this._LastModifiedByID;
+			}
+			set
+			{
+				if ((this._LastModifiedByID != value))
+				{
+					this._LastModifiedByID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifiedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime LastModifiedAt
+		{
+			get
+			{
+				return this._LastModifiedAt;
+			}
+			set
+			{
+				if ((this._LastModifiedAt != value))
+				{
+					this._LastModifiedAt = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SvcIns_AppServiceRunQueueResult
+	{
+		
+		private int _AppServiceRunQueueID;
+		
+		private System.Nullable<int> _AppServiceRunID;
+		
+		private System.Nullable<int> _AppServiceQueueID;
+		
+		private int _StateID;
+		
+		private int _Retry;
+		
+		private int _StatusID;
+		
+		private int _CreatedByID;
+		
+		private System.DateTime _CreatedAt;
+		
+		private int _LastModifiedByID;
+		
+		private System.DateTime _LastModifiedAt;
+		
+		public SvcIns_AppServiceRunQueueResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AppServiceRunQueueID", DbType="Int NOT NULL")]
+		public int AppServiceRunQueueID
+		{
+			get
+			{
+				return this._AppServiceRunQueueID;
+			}
+			set
+			{
+				if ((this._AppServiceRunQueueID != value))
+				{
+					this._AppServiceRunQueueID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AppServiceRunID", DbType="Int")]
+		public System.Nullable<int> AppServiceRunID
+		{
+			get
+			{
+				return this._AppServiceRunID;
+			}
+			set
+			{
+				if ((this._AppServiceRunID != value))
+				{
+					this._AppServiceRunID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AppServiceQueueID", DbType="Int")]
+		public System.Nullable<int> AppServiceQueueID
+		{
+			get
+			{
+				return this._AppServiceQueueID;
+			}
+			set
+			{
+				if ((this._AppServiceQueueID != value))
+				{
+					this._AppServiceQueueID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateID", DbType="Int NOT NULL")]
+		public int StateID
+		{
+			get
+			{
+				return this._StateID;
+			}
+			set
+			{
+				if ((this._StateID != value))
+				{
+					this._StateID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Retry", DbType="Int NOT NULL")]
+		public int Retry
+		{
+			get
+			{
+				return this._Retry;
+			}
+			set
+			{
+				if ((this._Retry != value))
+				{
+					this._Retry = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusID", DbType="Int NOT NULL")]
+		public int StatusID
+		{
+			get
+			{
+				return this._StatusID;
+			}
+			set
+			{
+				if ((this._StatusID != value))
+				{
+					this._StatusID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByID", DbType="Int NOT NULL")]
+		public int CreatedByID
+		{
+			get
+			{
+				return this._CreatedByID;
+			}
+			set
+			{
+				if ((this._CreatedByID != value))
+				{
+					this._CreatedByID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedAt
+		{
+			get
+			{
+				return this._CreatedAt;
+			}
+			set
+			{
+				if ((this._CreatedAt != value))
+				{
+					this._CreatedAt = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifiedByID", DbType="Int NOT NULL")]
+		public int LastModifiedByID
+		{
+			get
+			{
+				return this._LastModifiedByID;
+			}
+			set
+			{
+				if ((this._LastModifiedByID != value))
+				{
+					this._LastModifiedByID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifiedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime LastModifiedAt
+		{
+			get
+			{
+				return this._LastModifiedAt;
+			}
+			set
+			{
+				if ((this._LastModifiedAt != value))
+				{
+					this._LastModifiedAt = value;
+				}
+			}
+		}
+	}
+	
+	public partial class SvcGet_AppServiceQueueResult
+	{
+		
+		private int _AppServiceQueueID;
+		
+		private System.Nullable<int> _AppServiceID;
+		
+		private int _MapObjectID;
+		
+		private int _MapObjectTargetID;
+		
+		private int _RetryAttempts;
+		
+		private int _StateID;
+		
+		private int _StatusID;
+		
+		private string _FileName;
+		
+		private int _CreatedByID;
+		
+		private System.DateTime _CreatedAt;
+		
+		private int _LastModifiedByID;
+		
+		private System.DateTime _LastModifiedAt;
+		
+		public SvcGet_AppServiceQueueResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AppServiceQueueID", DbType="Int NOT NULL")]
+		public int AppServiceQueueID
+		{
+			get
+			{
+				return this._AppServiceQueueID;
+			}
+			set
+			{
+				if ((this._AppServiceQueueID != value))
+				{
+					this._AppServiceQueueID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AppServiceID", DbType="Int")]
+		public System.Nullable<int> AppServiceID
+		{
+			get
+			{
+				return this._AppServiceID;
+			}
+			set
+			{
+				if ((this._AppServiceID != value))
+				{
+					this._AppServiceID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MapObjectID", DbType="Int NOT NULL")]
+		public int MapObjectID
+		{
+			get
+			{
+				return this._MapObjectID;
+			}
+			set
+			{
+				if ((this._MapObjectID != value))
+				{
+					this._MapObjectID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MapObjectTargetID", DbType="Int NOT NULL")]
+		public int MapObjectTargetID
+		{
+			get
+			{
+				return this._MapObjectTargetID;
+			}
+			set
+			{
+				if ((this._MapObjectTargetID != value))
+				{
+					this._MapObjectTargetID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RetryAttempts", DbType="Int NOT NULL")]
+		public int RetryAttempts
+		{
+			get
+			{
+				return this._RetryAttempts;
+			}
+			set
+			{
+				if ((this._RetryAttempts != value))
+				{
+					this._RetryAttempts = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateID", DbType="Int NOT NULL")]
+		public int StateID
+		{
+			get
+			{
+				return this._StateID;
+			}
+			set
+			{
+				if ((this._StateID != value))
+				{
+					this._StateID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusID", DbType="Int NOT NULL")]
+		public int StatusID
+		{
+			get
+			{
+				return this._StatusID;
+			}
+			set
+			{
+				if ((this._StatusID != value))
+				{
+					this._StatusID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FileName", DbType="NVarChar(MAX)")]
+		public string FileName
+		{
+			get
+			{
+				return this._FileName;
+			}
+			set
+			{
+				if ((this._FileName != value))
+				{
+					this._FileName = value;
 				}
 			}
 		}
