@@ -25,10 +25,12 @@ _________    ___________    _______		_____________________________________
 
 
 Create Procedure [dbo].[SvcIns_AppServiceRunLog]
-	(   @p_AppServiceRunID         int
+	(   
+	   @p_AppServiceID			   int
+	   ,@p_AppServiceRunID         int
 	   ,@p_AppServiceQueueID       int
 	   ,@p_LogLevel                varchar(50)
-	   ,@p_LogMessage              varchar(50)
+	   ,@p_LogMessage              varchar(max)
 	   ,@p_LogTime                 datetime
 	   ,@p_CreatedByID             int
 	   --,@p_CreatedAt               datetime
@@ -47,7 +49,8 @@ BEGIN
 		BEGIN 
 			 INSERT INTO [AppServiceRunLog]
 			   (
-			    [AppServiceRunID]
+			    [AppServiceID]
+			   ,[AppServiceRunID]
 			   ,[AppServiceQueueID] 
 			   ,[LogLevel]
 			   ,[LogMessage]
@@ -59,7 +62,8 @@ BEGIN
 			   )
 		     VALUES
 			   (
-			    @p_AppServiceRunID
+			   @p_AppServiceID
+			   ,@p_AppServiceRunID
 			   ,@p_AppServiceQueueID
 			   ,@p_LogLevel
 			   ,@p_LogMessage

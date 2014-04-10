@@ -101,6 +101,14 @@ namespace specp.Domain.Repository
 			tState = ((string)(result.GetParameterValue(3)));
 			return ((ISingleResult<SvcGet_AppServiceQueueResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.SvcIns_AppServiceRunLog")]
+		public int SvcIns_AppServiceRunLog([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceRunID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_AppServiceQueueID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string p_LogLevel, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string p_LogMessage, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> p_LogTime, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> p_CreatedByID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(500)")] ref string tState)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), p_AppServiceID, p_AppServiceRunID, p_AppServiceQueueID, p_LogLevel, p_LogMessage, p_LogTime, p_CreatedByID, tState);
+			tState = ((string)(result.GetParameterValue(7)));
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	public partial class SvcIns_AppServiceRunResult

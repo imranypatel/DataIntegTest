@@ -26,6 +26,9 @@ _________    ___________    _______		_____________________________________
 
 Create Procedure [dbo].[SvcGet_AppServiceQueue]
   	 (
+  	  @p_StateID int = -1,
+  	  @p_AppServiceQueueID int = -1,
+  	  @p_FileName varchar(max) = null,
   	  @tState	  varchar(500) output)  
 AS 
 
@@ -34,12 +37,9 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
-	
+
 	BEGIN TRY
-		BEGIN 
-		      SELECT  
-		      
+		      SELECT  	      
 		           AppServiceQueueID     = AppServiceQueueID
 				  ,AppServiceID          = AppServiceID
 				  ,MapObjectID           = MapObjectID
@@ -47,22 +47,29 @@ BEGIN
 				  ,RetryAttempts         = RetryAttempts
 				  ,StateID               = StateID
 				  ,StatusID              = StatusID
+				  ,[FileName] 
 				  ,CreatedByID           = CreatedByID
 				  ,CreatedAt             = CreatedAt
 				  ,LastModifiedByID      = LastModifiedByID
 				  ,LastModifiedAt        = LastModifiedAt
 				   
 			  FROM AppServiceQueue  
-
-	    END
-
-	
+			  WHERE 1=1
+			  AND (@p_StateID=-1 OR StateId = @p_StateID)
+			  AND (@p_AppServiceQueueID=-1 OR AppServiceQueueID=@p_AppServiceQueueID)
+			  AND (@p_FileName is Null or [FileName] =  @p_FileName)
+	           Select @tState = 'OK' 
+						 + '~' + 'SVC-100001' 
+						 + '~' + 'SvcGet_AppServiceQueue'
+						 + '~' + 'NONE'
+						 + '~' +  'OK'
     END TRY
+            
 	
 	BEGIN CATCH
 			Select @tState = 'ERR' 
-						 + '~' + 'SvcGet_AppServiceQueue' 
-						 + '~' + 'NONE'
+						 + '~' + 'SVC-100001' 
+						 + '~' + 'SvcGet_AppServiceQueue'
 						 + '~' + 'NONE'
 						 + '~' +  ERROR_MESSAGE()   
 	END CATCH

@@ -56,7 +56,11 @@ BEGIN
              WHERE 1 = 1
               AND AppServiceRunID = @p_AppServiceRunID
 	    END
-
+          Select @tState = 'OK' 
+						 + '~' + 'SVC-100001'
+						 + '~' + 'SvcUpd_AppServiceRun'
+						 + '~' + 'NONE'
+						 + '~' +  'Service Run Updated' 
 	
     END TRY
 	

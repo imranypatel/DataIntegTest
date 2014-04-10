@@ -7,14 +7,14 @@ using System.Configuration;
 using System.IO;
 namespace specp.DataIntegration
 {
-    class ETLSimulator: IETL
+    class xETLSimulator: IETL
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
         //private static string _TraxDILocalStagePath;
         //private static string _TraxDILocalFTPPath;
         //private static string _TraxDILocalArchivePath;
 
-        public ETLSimulator()
+        public xETLSimulator()
         {
 
         }

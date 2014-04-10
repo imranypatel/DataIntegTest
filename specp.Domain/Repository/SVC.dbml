@@ -77,4 +77,15 @@
       <Column Name="LastModifiedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.SvcIns_AppServiceRunLog" Method="SvcIns_AppServiceRunLog">
+    <Parameter Name="p_AppServiceID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_AppServiceRunID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_AppServiceQueueID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="p_LogLevel" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="p_LogMessage" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="p_LogTime" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="p_CreatedByID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="tState" Type="System.String" DbType="VarChar(500)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

@@ -1,5 +1,5 @@
-IF OBJECTPROPERTY(object_id('SvcIns_AppServiceRunQueue'), N'IsProcedure') = 1
-DROP PROCEDURE [SvcIns_AppServiceRunQueue]
+IF OBJECTPROPERTY(object_id('SvcIns_AppServiceQueue'), N'IsProcedure') = 1
+DROP PROCEDURE [SvcIns_AppServiceQueue]
 GO
 SET ANSI_NULLS ON
 GO
@@ -8,7 +8,7 @@ GO
 /*
 *******************************************************************************
 
--- Description / Purpose: -- Create procedure to Insert AppServiceRunQueue Information.
+-- Description / Purpose: -- Create procedure to Insert App Service Queue Information.
 
 SAJ = Muhammad Salman Ajmeri
 IP = Imran Patel
@@ -24,15 +24,16 @@ _________    ___________    _______		_____________________________________
 */
 
 
-Create Procedure [dbo].[SvcIns_AppServiceRunQueue]
-	(   @p_AppServiceRunID         int
-	   ,@p_AppServiceQueueID       int
-	   ,@p_StateID                 int
-	   ,@p_Retry                   int
-	   ,@p_StatusID                int
-	   ,@p_CreatedByID             int
-	   --,@p_CreatedAt               datetime
-  	   ,@tState	                   varchar(500) output)  
+Create Procedure [dbo].[SvcIns_AppServiceQueue]
+	(   @p_AppServiceID         int
+	   ,@p_MapObjectID          int
+	   ,@p_MapObjectTargetID    int
+	   ,@p_RetryAttempts        int
+	   ,@p_StateID              int
+	   ,@p_StatusID             int
+	   ,@p_CreatedByID          int
+	   --,@p_CreatedAt            datetime
+  	   ,@tState	                varchar(500) output)  
 		
 AS 
 
@@ -41,16 +42,17 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
+	DECLARE @ID int =0
 	
 	BEGIN TRY
 		BEGIN 
-			 INSERT INTO [AppServiceRunQueue]
+			 INSERT INTO [AppServiceQueue]
 			   (
-			    [AppServiceRunID]
-			   ,[AppServiceQueueID] 
+			    [AppServiceID]
+			   ,[MapObjectID]
+			   ,[MapObjectTargetID]
+			   ,[RetryAttempts]
 			   ,[StateID]
-			   ,[Retry]
 			   ,[StatusID]
 			   ,[CreatedByID]
 			   ,[CreatedAt]
@@ -59,25 +61,35 @@ BEGIN
 			   )
 		     VALUES
 			   (
-			    @p_AppServiceRunID
-			   ,@p_AppServiceQueueID
+			    @p_AppServiceID
+			   ,@p_MapObjectID
+			   ,@p_MapObjectTargetID
+			   ,@p_RetryAttempts
 			   ,@p_StateID
-			   ,@p_Retry
 			   ,@p_StatusID
 			   ,@p_CreatedByID
 			   ,GetDate()--@p_CreatedAt
-               ,@p_CreatedByID
+			     ,@p_CreatedByID
 			   ,GetDate()
 			   )
 
 	    END
-
+         SELECT  @ID = @@IDENTITY 
+		 Select @tState = 'OK' 
+							 + '~' + 'SVC-100001' 
+							 + '~' + 'NONE'
+							 + '~' + Cast(@ID as varchar)
+							 + '~' + 'Queue item added successfully'
+		 Select *
+		 From [AppServiceQueue]
+		 Where 1=1
+		 and AppServiceQueueID=@ID
 	
     END TRY
 	
 	BEGIN CATCH
 			Select @tState = 'ERR' 
-						 + '~' + 'SvcIns_AppServiceRunQueue' 
+						 + '~' + 'SvcIns_AppServiceQueue' 
 						 + '~' + 'NONE'
 						 + '~' + 'NONE'
 						 + '~' +  ERROR_MESSAGE()   

@@ -1,5 +1,5 @@
-IF OBJECTPROPERTY(object_id('SvcIns_AppServiceQueue'), N'IsProcedure') = 1
-DROP PROCEDURE [SvcIns_AppServiceQueue]
+IF OBJECTPROPERTY(object_id('SvcIns_AppServiceRun'), N'IsProcedure') = 1
+DROP PROCEDURE [SvcIns_AppServiceRun]
 GO
 SET ANSI_NULLS ON
 GO
@@ -8,7 +8,7 @@ GO
 /*
 *******************************************************************************
 
--- Description / Purpose: -- Create procedure to Insert App Service Queue Information.
+-- Description / Purpose: -- Create procedure to Insert AppServiceRun Information.
 
 SAJ = Muhammad Salman Ajmeri
 IP = Imran Patel
@@ -24,12 +24,10 @@ _________    ___________    _______		_____________________________________
 */
 
 
-Create Procedure [dbo].[SvcIns_AppServiceQueue]
+Create Procedure [dbo].[SvcIns_AppServiceRun]
 	(   @p_AppServiceID         int
-	   ,@p_MapObjectID          int
-	   ,@p_MapObjectTargetID    int
-	   ,@p_RetryAttempts        int
-	   ,@p_StateID              int
+	   ,@p_StartedAt            datetime
+	   --,@p_FinishedAt           datetime
 	   ,@p_StatusID             int
 	   ,@p_CreatedByID          int
 	   --,@p_CreatedAt            datetime
@@ -42,17 +40,15 @@ BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	
+	DECLARE @ID int =0
 	
 	BEGIN TRY
 		BEGIN 
-			 INSERT INTO [AppServiceQueue]
+			 INSERT INTO [AppServiceRun]
 			   (
 			    [AppServiceID]
-			   ,[MapObjectID]
-			   ,[MapObjectTargetID]
-			   ,[RetryAttempts]
-			   ,[StateID]
+			   ,[StartedAt]
+			   ,[FinishedAt]
 			   ,[StatusID]
 			   ,[CreatedByID]
 			   ,[CreatedAt]
@@ -62,26 +58,33 @@ BEGIN
 		     VALUES
 			   (
 			    @p_AppServiceID
-			   ,@p_MapObjectID
-			   ,@p_MapObjectTargetID
-			   ,@p_RetryAttempts
-			   ,@p_StateID
+			   ,@p_StartedAt
+			   ,@p_StartedAt  --@p_FinishedAt
 			   ,@p_StatusID
 			   ,@p_CreatedByID
 			   ,GetDate()--@p_CreatedAt
-			     ,@p_CreatedByID
+			   ,@p_CreatedByID
 			   ,GetDate()
 			   )
 
 	    END
-
+		 SELECT  @ID = @@IDENTITY 
+		 Select @tState = 'OK' 
+							 + '~' + 'SVC-100001' 
+							 + '~' + 'NONE'
+							 + '~' + Cast(@ID as varchar)
+							 + '~' + 'Service run added successfully'
+		 Select *
+		 From AppServiceRun
+		 Where 1=1
+		 and AppServiceRunID=@ID
 	
     END TRY
 	
 	BEGIN CATCH
 			Select @tState = 'ERR' 
-						 + '~' + 'SvcIns_AppServiceQueue' 
-						 + '~' + 'NONE'
+						 + '~' + 'SVC-100001' 
+						 + '~' + 'SvcIns_AppServiceRun'
 						 + '~' + 'NONE'
 						 + '~' +  ERROR_MESSAGE()   
 	END CATCH

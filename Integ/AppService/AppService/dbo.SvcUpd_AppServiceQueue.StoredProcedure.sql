@@ -26,9 +26,10 @@ _________    ___________    _______		_____________________________________
 
 Create Procedure [dbo].[SvcUpd_AppServiceQueue]
 	(   @p_AppServiceQueueID      int
-	   ,@p_AppServiceID           int
-	   ,@p_MapObjectID            int
-	   ,@p_MapObjectTargetID      int
+	   --,@p_AppServiceID           int
+	   --,@p_MapObjectID            int
+	   --,@p_MapObjectTargetID      int
+	   ,@p_FileName      nvarchar(max)
 	   ,@p_RetryAttempts          int
 	   ,@p_StateID                int
 	   ,@p_StatusID               int
@@ -45,13 +46,14 @@ BEGIN
 	
 	
 	BEGIN TRY
-		BEGIN 
+		--BEGIN 
 			UPDATE [AppServiceQueue]
 			
-			   SET [AppServiceID]      = @p_AppServiceID
-				  ,[MapObjectID]       = @p_MapObjectID
-				  ,[MapObjectTargetID] = @p_MapObjectTargetID
-				  ,[RetryAttempts]     = @p_RetryAttempts
+			   SET --[AppServiceID]      = @p_AppServiceID
+				  --,[MapObjectID]       = @p_MapObjectID
+				  --,[MapObjectTargetID] = @p_MapObjectTargetID
+				   [RetryAttempts]     = @p_RetryAttempts
+				  ,[FIleName]			   = @p_FileName
 				  ,[StateID]           = @p_StateID
 				  ,[StatusID]          = @p_StatusID
 				  ,[LastModifiedByID]  = @p_LastModifiedByID
@@ -59,8 +61,13 @@ BEGIN
              
              WHERE 1 = 1
               AND AppServiceQueueID = @p_AppServiceQueueID
-	    END
-
+	    --END
+	         Select @tState = 'OK' 
+						 + '~' + 'SvcUpd_AppServiceQueue' 
+						 + '~' + 'NONE'
+						 + '~' + 'NONE'
+						 + '~' +  'OK'
+  
 	
     END TRY
 	

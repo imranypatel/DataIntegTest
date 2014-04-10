@@ -133,7 +133,12 @@ namespace specp.DataIntegration
             
             try
             {
-                return Directory.GetFiles(ftpFolderName,srcFileName);                       
+                var files = Directory.GetFiles(ftpFolderName,srcFileName);
+                if (files.Length == 0)
+                    return null;
+                else
+                    return files;
+                   
             }
             catch (Exception e)
             {
